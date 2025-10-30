@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Products{% endblock title %}
+
+
+{% block content %}
+<style>
+  .product-image{
+    height: 200px;
+    object-fit: contain;
+  }
+  .card{
+    max-height: 400px;
+  }
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+</style>
+<div class="container">
+  <h1 class="mb-4 text-center">All Products: User: {{ user }}</h1>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for product in products %}
+    <div class="col-md-4 col-lg-3"> <!-- Adjust the column size here -->
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="card shadow d-flex flex-column">
+          <a href="{% url 'product_detail' product.id %}">
+          <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}"></a>
+          <div class="card-body flex-grow-1">
+            <p class="card-title truncate">{{ product.name }}</p>
+            <label for="">Price</label>
+            <p style="text-decoration: line-through;" class="card-text">{{ product.price }}Rs/-</p>
+            <p class="card-text">{{ product.discount_price }}Rs/-</p>
+           
+          </div>
+          
+        </div>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
